@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>WhatsApp Chat Analysis</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <style>
+    /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+    .row.content {height: 550px}
+    
+    /* Set gray background color and 100% height */
+    .sidenav {
+      background-color: white;
+      height: 200%;
+    }
+    .well {
+      background-color: white;
+      height: 100%;
+    }
+    p {
+    font-weight: bold;
+    font-size: 1.2em;
+  }
+   .container {
+            width: 400px;
+            height: 300px;
+            overflow-y: scroll;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        ul {
+            padding: 0;
+            list-style-type: none;
+        }
+        li {
+            margin-bottom: 10px;
+            background-color: #f0f0f0;
+            padding: 5px;
+            border-radius: 5px;
+        } 
+
+        
+    /* On small screens, set height to 'auto' for the grid */
+    @media screen and (max-width: 767px) {
+      .row.content {height: auto;} 
+    }
+  </style>
+</head>
+<body style="background-color: #337AB7;">
+
+<nav class="navbar navbar-inverse visible-xs">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand"><img src="logo.png" alt="l"></a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="/dashboard">Chat Overview</a></li>
+        <li><a href="/person-analysis" id="person-analysis">Person Analysis</a></li>
+        <li><a href="/sentiment-analysis">Search By Word</a></li>
+        <li><a href="/Chat-Comparsion">Chat Comparison</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container-fluid">
+  <div class="row content">
+    <div class="col-sm-3 sidenav hidden-xs">
+      <ul class="nav nav-pills nav-stacked">
+        <li class="active"><a href="/dashboard">Dashboard</a></li>
+        <li><a href="/person-analysis" id="person-analysis">Person Analysis</a></li>
+        <li><a href="/sentiment-analysis">Search By Word</a></li>
+        <li><a href="/Chat-Comparsion">Chat Comparison</a></li>
+        <li><a href="/links">Links</a></li>
+      </ul><br>
+    </div>
+    <br>
+    
+    <div class="col-sm-9">
+      <div class="well">
+        <h4 style="color: darkgreen;font-weight: bold;">WhatsApp Chat Analysis</h4>
+        <p>Analyzing WhatsApp chats offers valuable insights into communication patterns, social dynamics, and facilitates data-driven decision making, enabling a deeper understanding of interactions and informed decision-making based on chat content.</p>
+      </div>
+      <div class="row">
+        <div class="col-sm-3">
+          <div class="well">
+            <h4 style="color: #800000;">Day Message count</h4>
+             <p>{{ day }}</p>
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div class="well">
+            <h4 style="color: #800000;">MTD Message count</h4>
+            <p>{{ mtd }}</p> 
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div class="well">
+            <h4 style="color: #800000;">YTD Message count</h4>
+            <p>{{ ytd }}</p> 
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div class="well">
+            <h4 style="color: #800000;">Total Messages</h4>
+            <p>{{ total }}</p> 
+          </div>
+        </div>
+      </div>
+      <h2 style="color: white;">Most Used Words in the chat</h2>
+      <div class="row">
+        <div class="col-sm-4">
+          <div class="well">
+            <p style="color: darkgreen;">{{ word0 }}</p> 
+            <p style="color: darkgreen;">{{ word1 }}</p> 
+            <p style="color: darkgreen;">{{ word2 }}</p> 
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="well">
+            <p style="color: darkgreen;">{{ word3 }}</p> 
+            <p style="color: darkgreen;">{{ word4 }}</p> 
+            <p style="color: darkgreen;">{{ word5 }}</p> 
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="well">
+            <p style="color: darkgreen;">{{ word6 }}</p> 
+            <p style="color: darkgreen;">{{ word7 }}</p> 
+            <p style="color: darkgreen;">{{ word8 }}</p> 
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <img src="data:image/png;base64,{{ graphics }}" alt="Chart">
+        </div>
+        <div class="col-sm-6">
+          <div class="well">
+            <p>No. of people in chat</p> 
+            <p>{{ totalparicipents }}</p> 
+          </div>
+          <div>
+          <img src="data:image/png;base64,{{ graphic1 }}" alt="Chart">
+        </div>
+        </div>
+      </div>
+
+
+      <script>
+        $(document).ready(function() {
+          $("#person-analysis").click(function(e) {
+            e.preventDefault(); // Prevent the default link behavior
+            
+            // Use the History API to change the URL without reloading the page
+            history.pushState({}, "", "/person-analysis");
+            
+            // Make an AJAX request to fetch the content for the Person Analysis
+            $.ajax({
+              type: "GET",
+              url: "/person-analysis",  // Replace with the actual Flask route for the PersonAnalysis function
+              success: function(response) {
+                // Replace the content of the <div> with id="content" with the response HTML
+                $("#content").html(response);
+              },
+              error: function(xhr) {
+                // Handle any errors that occur during the AJAX request
+              }
+            });
+          });
+        });
+      </script>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
+

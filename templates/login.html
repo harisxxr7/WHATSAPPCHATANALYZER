@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>WhatsApp Chat Analysis</title>
+    <link rel="icon" type="images/x-icon" src="{{url_for('static',filename='logo.jpg')}}" />
+	<link rel="stylesheet" href="signUpPageStyle.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <script type="text/javascript">
+  	function togglePasswordVisibility()
+  	 {
+			var passwordInput = document.getElementById("password");
+			var toggleButton = document.getElementById("toggle-password-button");
+			if (passwordInput.type === "password") {
+				passwordInput.type = "text";
+				toggleButton.innerHTML = "<i class='fa fa-eye-slash'></i>";
+			} else {
+				passwordInput.type = "password";
+				toggleButton.innerHTML = "<i class='fa fa-eye'></i>";
+			}
+		}
+  </script>
+
+
+	<style>
+		body {
+	font-family: Arial, sans-serif;
+	background-color: #2f2f2f;
+	color: #fff;
+}
+
+.container {
+	background-image: url('D:\FYP\static\nahel-abdul-hadi-flha0KwRrRc-unsplash.jpg');
+	margin: 0 auto;
+	max-width: 500px;
+	padding: 30px;
+	background-color: #1c1c1c;
+	box-shadow: 0px 0px 10px rgba(255,255,255,0.1);
+	border-radius: 10px;
+}
+
+h1 {
+	text-align: center;
+	font-size: 36px;
+	margin-bottom: 30px;
+	text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+form {
+	display: flex;
+	flex-direction: column;
+}
+
+label {
+	font-weight: bold;
+	margin-bottom: 10px;
+}
+.error {
+  color: red;
+  text-shadow: 0 0 5px red;
+}
+
+input {
+	padding: 10px;
+	margin-bottom: 20px;
+	border-radius: 5px;
+	border: none;
+	box-shadow: 0px 0px 10px rgba(255,255,255,0.1);
+	background-color: #3c3c3c;
+	color: #fff;
+}
+
+button {
+	background-color: #4CAF50;
+	color: #fff;
+	border: none;
+	border-radius: 5px;
+	padding: 10px 20px;
+	font
+input:invalid
+}
+{
+	border: 2px solid red;
+}
+
+input:focus:invalid {
+	box-shadow: 0px 5px 10px rgba(255,0,0,0.9);
+}
+
+input:focus:valid {
+	box-shadow: 0px 5px 10px rgba(0,255,0
+
+	</style>
+</head>
+<body>
+	<div class="container">
+		<h1>Secure Sign In</h1>
+		{% if message %}
+      <p style="color: red;">{{ message }}</p>
+    {% endif %}
+		<form  action="{{ url_for('login') }}" method="POST" enctype="multipart/form-data">
+			<label for="email">Email</label>
+			<input type="email" id="email" name="email" placeholder="Enter your email" required>
+			<label for="password">Password</label>
+			<div class="password-input">
+				<input type="password" id="password" name="password" placeholder="Enter your password" required>
+				<button type="button" id="toggle-password-button" onclick="togglePasswordVisibility()"><i class="fa fa-eye"></i></button>
+			</div>
+			<button type="submit">Sign In</button>
+			<br>
+			<br>
+			<button><a href="{{ url_for('getsignupdetails') }}">Sign Up</button>
+		</form>
+	</div>
+</body>
+</html>
+

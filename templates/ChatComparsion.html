@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>WhatsApp Chat Analysis</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+    .row.content {height: 550px}
+    
+    /* Set gray background color and 100% height */
+    .sidenav {
+      background-color: white;
+      height: 200%;
+    }
+    .well {
+      background-color: white;
+      height: 100%;
+    }
+    p {
+    font-weight: bold;
+    font-size: 1.2em;
+  }
+
+        
+    /* On small screens, set height to 'auto' for the grid */
+    @media screen and (max-width: 767px) {
+      .row.content {height: auto;} 
+    }
+    .container {
+            width: 400px;
+            height: 300px;
+            overflow-y: scroll;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        ul {
+            padding: 0;
+            list-style-type: none;
+        }
+        li {
+            margin-bottom: 10px;
+            background-color: #f0f0f0;
+            padding: 5px;
+            border-radius: 5px;
+        } 
+  </style>
+</head>
+<body style="background-color: #337AB7;">
+
+<nav class="navbar navbar-inverse visible-xs">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand"><img src="logo.png" alt="l"></a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li ><a href="/dashboard">Chat Overview</a></li>
+        <li><a href="/person-analysis">Person Analysis</a></li>
+        <li><a href="/sentiment-analysis">Chat Sentiment Analysis</a></li>
+        <li class="active"><a href="/Chat-Comparsion">Chat Comparison</a></li>
+        <li><a href="/links">Links</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container-fluid">
+  <div class="row content">
+    <div class="col-sm-3 sidenav hidden-xs">
+      <ul class="nav nav-pills nav-stacked">
+        <li><a href="/dashboard">Dashboard</a></li>
+        <li><a href="/person-analysis">Person Analysis</a></li>
+        <li><a href="/sentiment-analysis">Search By Word</a></li>
+        <li class="active"><a href="/Chat-Comparsion">Chat Comparison</a></li>
+        <li><a href="/links">Links</a></li>
+      </ul><br>
+    </div>
+    <br>
+    
+    <div class="col-sm-9">
+      <div class="well">
+        <h4 style="color: darkgreen;font-weight: bold;">WhatsApp Chat Analysis</h4>
+        <p>Analyzing WhatsApp chats offers valuable insights into communication patterns, social dynamics, and facilitates data-driven decision making, enabling a deeper understanding of interactions and informed decision-making based on chat content.</p>
+      </div>
+      <div style="display: flex;">
+  <form action="/Chat-Comparsion" method="POST" enctype="multipart/form-data">
+    <label for="file">Chat 1</label>
+    <input type="file" name="file" accept=".txt">
+    <label for="file1">Chat 2</label>
+    <input type="file" name="file1" accept=".txt">
+    <button type="submit">Submit</button>
+  </form>
+</div>
+{% if show_content %}
+<div class="row">
+  <div class="col-sm-6" style="height:500px;border-left: 1px solid gray;">
+    <ul>
+      <li><h4>Total Participants: {{participents}}</h4></li>
+      <li><h4>Mutual Participants: {{mutual_elements}}</h4></li>
+      <li><h4>Total Messages Count: {{count}}</h4></li>
+      <li><h4>Total Positive Messages: {{positive}}</h4></li>
+      <li><h4>Total Negative Messages: {{negative}}</h4></li>
+      <div class="container">
+        <ul>
+            {% for string in negative_string %}
+                <li>{{ string }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <br>
+      <li><h4>Participent: {{participentsname}}</h4>
+      </li>
+    </ul>
+  </div>
+  <div class="col-sm-6" style="height:500px;border-right: 1px solid gray;">
+    <ul>
+      <li><h4>Total Participants: {{participents1}}</h4></li>
+      <li><h4>Mutual Participants: {{mutual_elements}}</h4></li>
+      <li><h4>Total Messages Count: {{count1}}</h4></li>
+      <li><h4>Total Positive Messages: {{positive1}}</li>
+      <li><h4>Total Negative Messages: {{negative1}}</li>
+        <div class="container">
+        <ul>
+            {% for string in negative_string1 %}
+                <li>{{ string }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <br>
+      <li><h4>Participent: {{participentsname1}}</h4>
+    </ul>
+  </div>
+</div>
+ {% endif %}
+</body>
+</html>
+
